@@ -30,6 +30,7 @@ public class MyVaadinUI extends UI
     protected void init(VaadinRequest request) {
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
+        layout.setSpacing(true);
         setContent(layout);
 
         container = new BeanItemContainer<>(Person.class);
@@ -37,6 +38,7 @@ public class MyVaadinUI extends UI
         table.setContainerDataSource(container);
         table.setSelectable(true);
         table.setImmediate(true);
+        table.setWidth("400px");
         table.addItemClickListener(new OpenFormListener(container));
 
         Button addButton = new Button("Add Person", new OpenFormListener(container));
