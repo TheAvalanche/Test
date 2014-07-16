@@ -6,6 +6,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
@@ -17,7 +18,6 @@ import javax.servlet.annotation.WebServlet;
 public class MyVaadinUI extends UI
 {
 
-    private Window subWindow;
     private BeanItemContainer<Person> container;
 
     @WebServlet(value = "/*", asyncSupported = true)
@@ -38,6 +38,14 @@ public class MyVaadinUI extends UI
         table.setContainerDataSource(container);
         table.setSelectable(true);
         table.setImmediate(true);
+        table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
+            public void itemClick(ItemClickEvent event) {
+                if (event.isDoubleClick() && event.getItem() != null) {
+                    openForm((BeanItem<Person>) event.getItem());
+                }
+            }
+        });
 
         Button addButton = new Button("Add Person", new Button.ClickListener() {
             @Override
@@ -53,7 +61,7 @@ public class MyVaadinUI extends UI
 
     private void openForm(BeanItem<Person> bean) {
 
-        subWindow = new Window();
+        Window subWindow = new Window();
         subWindow.setModal(true);
         subWindow.setHeight("800px");
         subWindow.setWidth("450px");
@@ -64,19 +72,9 @@ public class MyVaadinUI extends UI
         layout.setMargin(true);
         layout.setSpacing(true);
 
-        layout.addComponent(new PersonForm(bean));
+        layout.addComponent(new PersonForm(bean, subWindow));
 
         subWindow.setContent(layout);
-        subWindow.addCloseListener(new Window.CloseListener() {
-            @Override
-            public void windowClose(Window.CloseEvent closeEvent) {
-
-            }
-        });
-    }
-
-    public void refreshView() {
-        this.removeWindow(subWindow);
 
     }
 

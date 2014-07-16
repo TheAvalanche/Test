@@ -11,6 +11,8 @@ import java.util.Arrays;
 
 public class PersonForm extends FormLayout {
 
+    private final Window window;
+
     @PropertyId("name")
     private TextField nameField = new TextField("Name");
 
@@ -24,7 +26,8 @@ public class PersonForm extends FormLayout {
     private ComboBox occupationField = new ComboBox("Occupation", Arrays.asList(Occupation.values()));
 
 
-    public PersonForm(BeanItem<Person> bean) {
+    public PersonForm(BeanItem<Person> bean, Window window) {
+        this.window = window;
 
         FieldGroup binder = new FieldGroup(bean);
         binder.bindMemberFields(this);
@@ -51,6 +54,7 @@ public class PersonForm extends FormLayout {
         public void buttonClick(Button.ClickEvent clickEvent) {
             try {
                 binder.commit();
+                window.close();
             } catch (FieldGroup.CommitException e) {
                 e.printStackTrace();
             }
