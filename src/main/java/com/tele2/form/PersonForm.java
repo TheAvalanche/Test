@@ -14,28 +14,38 @@ public class PersonForm extends FormLayout {
     private final Window window;
 
     @PropertyId("name")
-    private TextField nameField = new TextField("Name");
+    private TextField nameField;
 
     @PropertyId("surname")
-    private TextField surnameField = new TextField("Surname");
+    private TextField surnameField;
 
     @PropertyId("age")
-    private Slider ageField = new Slider("Age", 1, 99);
+    private Slider ageField;
 
     @PropertyId("occupation")
-    private ComboBox occupationField = new ComboBox("Occupation", Arrays.asList(Occupation.values()));
+    private ComboBox occupationField;
 
 
     public PersonForm(BeanItem<Person> bean, Window window) {
         this.window = window;
 
+        nameField = new TextField("Name");
+        nameField.setNullRepresentation("");
+        addComponent(nameField);
+
+        surnameField = new TextField("Surname");
+        surnameField.setNullRepresentation("");
+        addComponent(surnameField);
+
+        ageField = new Slider("Age", 1, 99);
+        ageField.setWidth("100%");
+        addComponent(ageField);
+
+        occupationField = new ComboBox("Occupation", Arrays.asList(Occupation.values()));
+        addComponent(occupationField);
+
         FieldGroup binder = new FieldGroup(bean);
         binder.bindMemberFields(this);
-
-        addComponent(nameField);
-        addComponent(surnameField);
-        addComponent(ageField);
-        addComponent(occupationField);
 
         Button saveButton = new Button("Save", new SaveGood(binder));
 
