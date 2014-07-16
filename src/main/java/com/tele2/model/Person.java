@@ -3,7 +3,7 @@ package com.tele2.model;
 public class Person {
     private String name;
     private String surname;
-    private Integer age;
+    private Double age;
     private Occupation occupation;
 
     public String getName() {
@@ -22,11 +22,11 @@ public class Person {
         this.surname = surname;
     }
 
-    public Integer getAge() {
+    public Double getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(Double age) {
         this.age = age;
     }
 
